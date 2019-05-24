@@ -50,7 +50,10 @@ void ofxSoundMatrixMixerRenderer::initOrResizeNumSliders(const float & sliderWid
 	
 	if(outputSliders.size() != obj->getNumOutputChannels()) outputSliders.resize(obj->getNumOutputChannels());
 	for(size_t i = 0; i < outputSliders.size(); i++){
-		if(!outputSliders[i]) outputSliders[i] = make_unique<ofxFloatSlider>(obj->outputVolumes[i], sliderWidth);
+        if(!outputSliders[i]) {
+            outputSliders[i] = make_unique<ofxFloatSlider>(obj->outputVolumes[i], sliderWidth);
+            ofLog()<<"make_unique<ofxFloatSlider>(obj->outputVolumes[i], sliderWidth) "<< sliderWidth;
+        }
 	}
 	if(!bMasterSliderSetup){
 		masterSlider.setup(obj->masterVol);;
@@ -128,7 +131,7 @@ void ofxSoundMatrixMixerRenderer::setMinChannelHeight(const float& minHeight){
 	this->minHeight = minHeight;
 }
 //----------------------------------------------------
-void ofxSoundMatrixMixerRenderer::draw(){
+void ofxSoundMatrixMixerRenderer::draw(float _windowWidth, float _windowHeight){
 	
 	if(obj != nullptr){
 		
@@ -136,8 +139,8 @@ void ofxSoundMatrixMixerRenderer::draw(){
 		float leftW = 200;
 		float bottomH = 150;
 		float chanW = 10;
-		ofRectangle leftR (margin.x, margin.y, leftW, ofGetHeight() - margin.y - margin.x - bottomH);
-		ofRectangle bottomR(leftR.getMaxX(), leftR.getMaxY(), ofGetWidth() - margin.x - leftR.getMaxX(),  bottomH);
+		ofRectangle leftR (margin.x, margin.y, leftW, _windowHeight - margin.y - margin.x - bottomH);
+		ofRectangle bottomR(leftR.getMaxX(), leftR.getMaxY(), _windowWidth - margin.x - leftR.getMaxX(),  bottomH);
 		
 		ofRectangle gridR (leftR.getMaxX(), leftR.getMinY(), bottomR.width, leftR.height);
 		
@@ -178,6 +181,7 @@ void ofxSoundMatrixMixerRenderer::draw(){
 		ofRectangle objR(leftR.x, leftR.y, leftW - chanW, leftR.height / obj->inObjects.size());
 		ofRectangle chanR(objR.getMaxX(), objR.y, chanW, cell.height);
 		
+//        ofLog()<<" initOrResizeNumSliders(cell.width); "<<cell.width;
 		initOrResizeNumSliders(cell.width);
 		
 		

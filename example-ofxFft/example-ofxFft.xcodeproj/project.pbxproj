@@ -1757,8 +1757,6 @@ fi
 						<string>../../../addons/ofxFft/libs/fftw</string>
 						<string>../../../addons/ofxFft/libs/fftw/include</string>
 						<string>../../../addons/ofxFft/libs/fftw/lib</string>
-						<string>../../../addons/ofxFft/libs/fftw/lib/osx</string>
-						<string>../../../addons/ofxFft/libs/fftw/lib/win32</string>
 						<string>../../../addons/ofxFft/libs/kiss</string>
 						<string>../../../addons/ofxFft/src</string>
 						<string>../../../addons/ofxGui/src</string>
@@ -1813,8 +1811,6 @@ fi
 						<string>../../../addons/ofxFft/libs/fftw</string>
 						<string>../../../addons/ofxFft/libs/fftw/include</string>
 						<string>../../../addons/ofxFft/libs/fftw/lib</string>
-						<string>../../../addons/ofxFft/libs/fftw/lib/osx</string>
-						<string>../../../addons/ofxFft/libs/fftw/lib/win32</string>
 						<string>../../../addons/ofxFft/libs/kiss</string>
 						<string>../../../addons/ofxFft/src</string>
 						<string>../../../addons/ofxGui/src</string>
@@ -1840,7 +1836,6 @@ fi
 						<string>$(OF_CORE_LIBS)</string>
 						<string>$(OF_CORE_FRAMEWORKS)</string>
 						<string>$(LIB_OF)</string>
-						<string>../../../addons/ofxFft/libs/fftw/lib/osx/libfftw3f.a</string>
 						<string>../../../addons/ofxSoundObjects/libs/libsndfile/lib/osx/libsndfile.a</string>
 					</array>
 					<key>PRODUCT_NAME</key>
@@ -4635,8 +4630,6 @@ fi
 						<string>../../../addons/ofxFft/libs/fftw</string>
 						<string>../../../addons/ofxFft/libs/fftw/include</string>
 						<string>../../../addons/ofxFft/libs/fftw/lib</string>
-						<string>../../../addons/ofxFft/libs/fftw/lib/osx</string>
-						<string>../../../addons/ofxFft/libs/fftw/lib/win32</string>
 						<string>../../../addons/ofxFft/libs/kiss</string>
 						<string>../../../addons/ofxFft/src</string>
 						<string>../../../addons/ofxGui/src</string>
@@ -4711,8 +4704,6 @@ fi
 						<string>../../../addons/ofxFft/libs/fftw</string>
 						<string>../../../addons/ofxFft/libs/fftw/include</string>
 						<string>../../../addons/ofxFft/libs/fftw/lib</string>
-						<string>../../../addons/ofxFft/libs/fftw/lib/osx</string>
-						<string>../../../addons/ofxFft/libs/fftw/lib/win32</string>
 						<string>../../../addons/ofxFft/libs/kiss</string>
 						<string>../../../addons/ofxFft/src</string>
 						<string>../../../addons/ofxGui/src</string>
@@ -4878,8 +4869,6 @@ fi
 						<string>../../../addons/ofxFft/libs/fftw</string>
 						<string>../../../addons/ofxFft/libs/fftw/include</string>
 						<string>../../../addons/ofxFft/libs/fftw/lib</string>
-						<string>../../../addons/ofxFft/libs/fftw/lib/osx</string>
-						<string>../../../addons/ofxFft/libs/fftw/lib/win32</string>
 						<string>../../../addons/ofxFft/libs/kiss</string>
 						<string>../../../addons/ofxFft/src</string>
 						<string>../../../addons/ofxGui/src</string>
@@ -4905,7 +4894,6 @@ fi
 						<string>$(OF_CORE_LIBS)</string>
 						<string>$(OF_CORE_FRAMEWORKS)</string>
 						<string>$(LIB_OF_DEBUG)</string>
-						<string>../../../addons/ofxFft/libs/fftw/lib/osx/libfftw3f.a</string>
 						<string>../../../addons/ofxSoundObjects/libs/libsndfile/lib/osx/libsndfile.a</string>
 					</array>
 					<key>PRODUCT_NAME</key>
@@ -4947,8 +4935,6 @@ fi
 						<string>../../../addons/ofxFft/libs/fftw</string>
 						<string>../../../addons/ofxFft/libs/fftw/include</string>
 						<string>../../../addons/ofxFft/libs/fftw/lib</string>
-						<string>../../../addons/ofxFft/libs/fftw/lib/osx</string>
-						<string>../../../addons/ofxFft/libs/fftw/lib/win32</string>
 						<string>../../../addons/ofxFft/libs/kiss</string>
 						<string>../../../addons/ofxFft/src</string>
 						<string>../../../addons/ofxGui/src</string>
@@ -4974,7 +4960,6 @@ fi
 						<string>$(OF_CORE_LIBS)</string>
 						<string>$(OF_CORE_FRAMEWORKS)</string>
 						<string>$(LIB_OF)</string>
-						<string>../../../addons/ofxFft/libs/fftw/lib/osx/libfftw3f.a</string>
 						<string>../../../addons/ofxSoundObjects/libs/libsndfile/lib/osx/libsndfile.a</string>
 					</array>
 					<key>PRODUCT_NAME</key>

@@ -31,7 +31,7 @@ void ofApp::setup(){
 #endif
 	//Here we also connect the audio input to the mixer
 	//
-	input.connectTo(mixer);
+//    input.connectTo(mixer);
 	
 	auto inDevices = ofxSoundUtils::getInputSoundDevices();
 	auto outDevices = ofxSoundUtils::getOutputSoundDevices();
@@ -61,7 +61,8 @@ void ofApp::setup(){
 		ofLogWarning("ofApp::setup", "could not set sample rate for soundstream") ;
 	}
 	
-	
+    fft.setup(settings.bufferSize);
+    
 	settings.setInDevice(inDevices[inDeviceIndex]);
 	settings.setOutDevice(outDevices[outDeviceIndex]);
 	
@@ -78,6 +79,20 @@ void ofApp::setup(){
 	mixerRenderer.enableSliders();
 	mixerSettingsXmlPath = "mixerSettings.xml";
 	
+    
+    //Create objects signal chain.
+    //Currently you need to connect the recorder to the output, because of the pull-through audio architecture being used. Eventually this need would become unnecesary. 
+    /*
+     if you do the following, you'll record the delayed and filtered signal.
+     input.connectTo(delay).connectTo(locutfilter).connectTo(recorder).connectTo(output);
+     
+     But if you have the following you'll be recording the raw input, which is then delayed and filtered
+     input.connectTo(recorder).connectTo(delay).connectTo(locutfilter).connectTo(output);
+     */
+    input.connectTo(recorder).connectTo(fft).connectTo(mixer); //.connectTo(output); //.connectTo(fft);
+    
+    
+    shuffleIndex = 0;
 	
 }
 //--------------------------------------------------------------
@@ -103,16 +118,39 @@ void ofApp::loadFolder(const string& path){
 }
 //--------------------------------------------------------------
 void ofApp::update(){
-	
-//	float x = ofMap(ofGetMouseX(), 0, ofGetWidth(), 0, 1, true);
-//	float y = ofMap(ofGetMouseY(), 0, ofGetHeight(), 0, 1, true);
-	//the following sets the volume for the second connection (sound player) for its first input channel and its second output channels based on the mouse x position 
-//	mixer.setVolumeForConnectionChannel(x, 1, 0, 0);
-	
-	// the following sets the volume of the matrix channels. In this case it would be the channel number 7 for which you can find out to which sound player it belongs by calling 
-	//mixer.getConnectionIndexAtInputChannel(7);
-//	mixer.setVolumeForChannel(y, 7, 1);
-	
+    
+//    ofLog()<<"mixer.getNumInputChannels() "<<mixer.getNumInputChannels();
+    
+    if(mixer.getNumOutputChannels() > 0){
+        int chan = int(ofGetElapsedTimef() / 1) % mixer.getNumInputChannels();
+        float x = ofMap(ofGetMouseX(), 0, ofGetWidth(), 0, 1, true);
+        //    float y = ofMap(ofGetMouseY(), 0, ofGetHeight(), 0, 1, true);
+        
+        float y  = 1 - fmod(ofGetElapsedTimef(),1);
+        //the following sets the volume for the second connection (sound player) for its first input channel and its second output channels based on the mouse x position 
+        //    mixer.setVolumeForConnectionChannel(x, 1, 0, 0);
+        
+        // the following sets the volume of the matrix channels. In this case it would be the channel number 7 for which you can find out to which sound player it belongs by calling 
+        //mixer.getConnectionIndexAtInputChannel(7);
+        mixer.setVolumeForChannel(y, chan, 1);
+    }
+    
+    if(bNewRecording == true && ofGetElapsedTimef() - stopRecTimer > 3){
+        bNewRecording = false; 
+        ofLog()<<"load new file "<<recFileName;
+     
+        
+        shuffleIndex++;
+        shuffleIndex %= players.size();
+           ofLog()<<"shuffleIndex "<<shuffleIndex;
+        players[shuffleIndex]->load(recFileName);
+        
+//        players[shuffleIndex]->connectTo(mixer);
+        players[shuffleIndex]->play();
+        players[shuffleIndex]->setLoop(true);
+
+    }
+    
 }
 //--------------------------------------------------------------
 void ofApp::exit(){
@@ -124,8 +162,12 @@ void ofApp::draw(){
 	
 	
     if(ofGetElapsedTimef() > 2){
-	mixerRenderer.draw();
+	mixerRenderer.draw(600,700);
     }
+    
+     fft.draw(); 
+    
+//    mixerRenderer.
 	stringstream ss;
 	ss << "Press l key to load mixer settings." << endl;
 	ss << "Press s key to save mixer settings." << endl;
@@ -176,11 +218,26 @@ void ofApp::keyReleased(int key){
 		mixerRenderer.toggleSliders();
 	}else if(key == 'n'){
 		mixerRenderer.setNonSliderMode(!mixerRenderer.isNonSliderMode());
-	}else if(key == ' '){
-		loadFolder(loadPath);
 	}
+//    else if(key == ' '){
+////        loadFolder(loadPath);
+//    }
 	
-	
+    if(key == ' '){
+        if(recorder.isRecording()){
+            recorder.stopRecording();
+            ofLog()<<"recorder.stopRecording();";
+            stopRecTimer = ofGetElapsedTimef();
+            bNewRecording = true;
+         
+            
+        }else{
+            recFileName = ofToDataPath(ofGetTimestampString()+".wav",true);
+            
+            recorder.startRecording(recFileName);
+            ofLog()<<"startRecording "<<recFileName;
+        }
+    }
 }
 
 //--------------------------------------------------------------

@@ -11,7 +11,7 @@
 #include "ofxGui.h"
 class ofxSoundMatrixMixerRenderer: public ofxSoundObjectBaseRenderer<ofxSoundMatrixMixer>{
 public:
-	virtual void draw() override;
+	virtual void draw(float _windowWidth, float _windowHeight) override;
 	void enableSliders();
 	void disableSliders();
 	void toggleSliders();
@@ -24,7 +24,7 @@ public:
 	
 private:
 	std::vector<std::vector<std::vector< std::unique_ptr<ofxFloatSlider>>>> sliders;
-	std::vector<std::unique_ptr<ofxFloatSlider>> outputSliders;
+    std::vector<std::unique_ptr<ofxFloatSlider>> outputSliders;
 
 	ofxFloatSlider masterSlider;	
 	void initOrResizeNumSliders(const float & sliderWidth = 200);
