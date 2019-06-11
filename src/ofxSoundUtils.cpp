@@ -32,6 +32,8 @@ void ofxSoundUtils::getBufferFromChannelGroup(const ofSoundBuffer & sourceBuffer
 	//	if(channels == 1){
 	//		sourceBuffer.copyTo(targetBuffer, nFrames, 0, 0);
 	//	}else{
+     ofLog()<<"sourceBuffer "<<sourceBuffer.size() <<" nFrames "<<nFrames;
+    
 	auto & buffer = sourceBuffer.getBuffer();
 	targetBuffer.allocate(nFrames, group.size());
 	for (std::size_t k = 0; k < group.size(); k++) {
@@ -39,6 +41,7 @@ void ofxSoundUtils::getBufferFromChannelGroup(const ofSoundBuffer & sourceBuffer
 			targetBuffer[k + i * group.size()] = buffer[group[k] + i * channels];
 		}
 	}
+    ofLog()<<"targetBuffer "<<targetBuffer.size();
 	//	}
 }
 //--------------------------------------------------------------

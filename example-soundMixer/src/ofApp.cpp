@@ -18,7 +18,7 @@ void ofApp::setup(){
     dir.allowExt("mp3");
     dir.allowExt("wav");
     
-    dir.listDir("../../../../../examples/sound/soundPlayerExample/bin/data/sounds");
+    dir.listDir(ofToDataPath("sounds"));
     volumeGroup.setName("PLAYER VOLUME");
 
 	players.resize(dir.size());

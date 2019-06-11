@@ -24,6 +24,15 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 	
+    ofxPanel gui_main;
+    ofParameter<bool> bShowGui;
+    ofParameter<int> inChannels, outChannels;
+    ofParameter<int> sampleRate;
+    ofParameter<string> inDeviceName, outDeviceName;
+    ofParameter<int> inDeviceIndex, outDeviceIndex;
+    int old_inDeviceIndex, old_outDeviceIndex;
+
+    
 	ofSoundStream stream;
 
 	ofxSoundMatrixMixer mixer;
@@ -32,10 +41,10 @@ public:
 	ofxSoundInput input;
 	
 	vector<shared_ptr<ofxSoundPlayerObject>> players;
-	
-	
-	size_t inDeviceIndex, outDeviceIndex;
-		
+
+    vector<ofSoundDevice> inDevices;
+    vector<ofSoundDevice> outDevices;
+    
 	string mixerSettingsXmlPath;
 	bool bSettingsLoaded = false;
 	
@@ -43,4 +52,6 @@ public:
 	
 	void loadFolder(const string& path);
 	
+//    ofFbo testFBO;
+    
 };

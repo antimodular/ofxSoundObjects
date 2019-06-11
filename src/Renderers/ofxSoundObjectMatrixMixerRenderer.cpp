@@ -131,11 +131,11 @@ void ofxSoundMatrixMixerRenderer::setMinChannelHeight(const float& minHeight){
 	this->minHeight = minHeight;
 }
 //----------------------------------------------------
-void ofxSoundMatrixMixerRenderer::draw(float _windowWidth, float _windowHeight){
+void ofxSoundMatrixMixerRenderer::draw(float _x, float _y, float _windowWidth, float _windowHeight){
 	
 	if(obj != nullptr){
 		
-		glm::vec2 margin = {20, 80};
+		glm::vec2 margin(_x, _y);
 		float leftW = 200;
 		float bottomH = 150;
 		float chanW = 10;
@@ -288,6 +288,7 @@ void ofxSoundMatrixMixerRenderer::draw(float _windowWidth, float _windowHeight){
 					}
 				}
 			}
+            
 			// input object info header rect draw end
 			
 			// draw cells start
@@ -300,6 +301,8 @@ void ofxSoundMatrixMixerRenderer::draw(float _windowWidth, float _windowHeight){
 				if(obj->ofxSoundMatrixMixer::getComputeRMSandPeak()){
 					obj->inObjects[idx]->vuMeter.drawChannel(i, chanR);
 				}
+                
+//                ofLog()<<i<<" v[i].size() "<<v[i].size()<<" idx "<<idx<<" sliders[idx][i].size() "<<sliders[idx][i].size();
 				for(size_t j = 0; j < v[i].size() && i < sliders[idx][i].size(); j++){
 					cell.x = gridR.x + cell.width*j; 	 
 					drawRect(cell);

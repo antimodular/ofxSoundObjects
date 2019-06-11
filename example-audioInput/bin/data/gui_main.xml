@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<audioInput>
+	<showGui>0</showGui>
+	<deviceIndex>0</deviceIndex>
+	<inCHannels>8</inCHannels>
+	<outChannels>8</outChannels>
+	<sampleRate>48000</sampleRate>
+</audioInput>

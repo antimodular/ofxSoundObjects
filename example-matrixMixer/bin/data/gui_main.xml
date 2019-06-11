@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<audioInput>
+	<showGui>0</showGui>
+	<inDeviceIndex>1</inDeviceIndex>
+	<in> Dante Via</in>
+	<outDeviceIndex>1</outDeviceIndex>
+	<out> Dante Via 16 Channel</out>
+	<inChannels>2</inChannels>
+	<outChannels>2</outChannels>
+	<sampleRate>48000</sampleRate>
+</audioInput>

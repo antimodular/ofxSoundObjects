@@ -13,7 +13,7 @@ class ofxSoundObjectBaseRenderer{
 public:
 	ofxSoundObjectBaseRenderer(){}
 	ofxSoundObjectBaseRenderer(ClassToRender* o);
-	virtual void draw(float _windowWidth, float _windowHeight) = 0;
+	virtual void draw(float _x, float _y, float _windowWidth, float _windowHeight) = 0;
 	
 //	virtual void setObject(ClassToRender* o);
 	

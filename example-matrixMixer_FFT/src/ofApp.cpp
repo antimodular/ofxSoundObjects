@@ -135,7 +135,7 @@ void ofApp::update(){
         mixer.setVolumeForChannel(y, chan, 1);
     }
     
-    if(bNewRecording == true && ofGetElapsedTimef() - stopRecTimer > 3){
+    if(bNewRecording == true && ofGetElapsedTimef() - stopRecTimer > 5){
         bNewRecording = false; 
         ofLog()<<"load new file "<<recFileName;
      
@@ -162,10 +162,10 @@ void ofApp::draw(){
 	
 	
     if(ofGetElapsedTimef() > 2){
-	mixerRenderer.draw(600,700);
+	mixerRenderer.draw(0,0,600,700);
     }
     
-     fft.draw(); 
+     fft.draw(0,0); 
     
 //    mixerRenderer.
 	stringstream ss;

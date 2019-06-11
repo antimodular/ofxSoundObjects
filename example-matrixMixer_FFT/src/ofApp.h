@@ -4,7 +4,7 @@
 #include "ofxSoundObjects.h"
 #include "ofxSoundObjectMatrixMixerRenderer.h"
 #include "ofxSoundRecorderObject.h"
-#include "FftObject.h"
+#include "fftHandler.h"
 
 class ofApp : public ofBaseApp{
 	
@@ -54,5 +54,5 @@ public:
     float stopRecTimer;
     
     //fft
-      FftObject fft;
+      fftHandler fft;
 };

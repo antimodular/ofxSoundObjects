@@ -25,6 +25,8 @@ ofxSoundRecorderObject::~ofxSoundRecorderObject(){
 #endif
 //--------------------------------------------------------------
 void ofxSoundRecorderObject::write(ofSoundBuffer& input){
+    
+//    ofLog()<<"recState "<<recState;
 	//TO DO: implement all this as part of ofxSoundFile, and implement the write process on a different thread.
 	if(recState == INIT_REC){
 		recState = REC_ON;
@@ -36,7 +38,8 @@ void ofxSoundRecorderObject::write(ofSoundBuffer& input){
 		format.sampleRate = input.getSampleRate();
 		format.bitsPerSample = 32;
 		
-		ofLogVerbose("ofxSoundRecorderObject::process")
+//        ofLogVerbose("ofxSoundRecorderObject::process")
+        ofLog()
 		<< "                        new audiofile: " << filenameBuffer << endl
 		<< "                        channels:      " << format.channels << endl
 		<< "                        sampleRate:    " << format.sampleRate << endl
@@ -51,6 +54,7 @@ void ofxSoundRecorderObject::write(ofSoundBuffer& input){
 	}
 	
 	if( recState == REC_ON && wav_handle != NULL){
+//        ofLog()<<"recorder input.getNumChannels() "<<input.getNumChannels();
 		drwav_uint64 samplesWritten = drwav_write_pcm_frames(wav_handle, input.getNumFrames(), input.getBuffer().data());
 		if(samplesWritten != input.getNumFrames()){
 			ofLogWarning("ofxSoundRecorderObject::process") << "samplesWritten " << samplesWritten << " != input.getNumFrames() " <<  input.getNumFrames() << endl;
@@ -68,7 +72,16 @@ void ofxSoundRecorderObject::threadedFunction(){
 #endif
 //--------------------------------------------------------------
 void ofxSoundRecorderObject::process(ofSoundBuffer &input, ofSoundBuffer &output){
+    
 	input.copyTo(output);
+    
+//    vector<int> m;
+////    for(int i=0; i<16;i++){
+//    for(int i=0; i<1;i++){
+//    m.push_back(i);
+//    }
+//    ofxSoundUtils::getBufferFromChannelGroup(input, input, m);
+    
 #ifdef OFX_SOUND_ENABLE_THREADED_RECORDER
 	if(recState != IDLE){
 		writeChannel.send(input);

@@ -11,7 +11,7 @@
 #include "ofxGui.h"
 class ofxSoundMatrixMixerRenderer: public ofxSoundObjectBaseRenderer<ofxSoundMatrixMixer>{
 public:
-	virtual void draw(float _windowWidth, float _windowHeight) override;
+	virtual void draw(float _x, float _y, float _windowWidth, float _windowHeight) override;
 	void enableSliders();
 	void disableSliders();
 	void toggleSliders();

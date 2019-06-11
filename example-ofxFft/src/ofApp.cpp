@@ -3,9 +3,9 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofSetLogLevel(OF_LOG_VERBOSE);
-    int bufferSize = 512;
+    int bufferSize = 1024; //512;
 	ofSoundStreamSettings streamSettings;
-	streamSettings.numInputChannels = 2;
+    streamSettings.numInputChannels = 1; //2;
 	streamSettings.numOutputChannels = 2;
 	streamSettings.sampleRate = 44100;
 	streamSettings.bufferSize = bufferSize;
@@ -41,7 +41,9 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     ofBackground(0);
-    fft.draw(ofRectangle(0,ofGetHeight()/2,ofGetWidth(), ofGetHeight()/2));
+//    fft.draw(ofRectangle(0,ofGetHeight()/2,ofGetWidth(), ofGetHeight()/2));
+    fft.draw(ofRectangle(0,ofGetHeight()/2,513, ofGetHeight()/2));
+
     wave.draw();
     string msg;
     switch (inputIndex) {

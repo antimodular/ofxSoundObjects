@@ -91,3 +91,7 @@ Desktop.ini
 *.log
 *.sql
 *.sqlite
+
+*.mp3
+*.wav
+/noGit

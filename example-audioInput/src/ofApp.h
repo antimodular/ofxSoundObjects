@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 
+#include "ofxGui.h"
 #include "ofxSoundObjects.h"
 #include "waveformDraw.h"
 class ofApp : public ofBaseApp{
@@ -26,4 +27,9 @@ class ofApp : public ofBaseApp{
     ofxSoundInput input;
     ofxSoundOutput output;
     ofSoundStream stream;
+    
+    ofxPanel gui_main;
+    ofParameter<bool> bShowGui;
+    ofParameter<int> inChannels, outChannels, deviceIndex;
+    ofParameter<int> sampleRate;
 };

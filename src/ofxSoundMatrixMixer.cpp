@@ -194,6 +194,8 @@ void ofxSoundMatrixMixer::setVolumeForConnectionChannel(const float& volValue, c
 }
 //----------------------------------------------------
 const float& ofxSoundMatrixMixer::getVolumeForConnectionChannel(const size_t& connectionIndex, const size_t& inputChannel, const size_t& outputChannel) const{
+    
+    ofLog()<<"connectionIndex < inObjects.size() "<<connectionIndex<<"  < "<<inObjects.size();
 	if(connectionIndex < inObjects.size()){
 		if(inputChannel < inObjects[connectionIndex]->channelsVolumes.size()){
 			if(outputChannel < inObjects[connectionIndex]->channelsVolumes[inputChannel].size()){
@@ -225,6 +227,10 @@ void ofxSoundMatrixMixer::setOutputVolumeForChannel (const float & volValue, con
 	}
 }
 const float & ofxSoundMatrixMixer::getOutputVolumeForChannel ( const size_t& outputChannel) const{
+    
+    ofLog()<<"outputChannel < outputVolumes.size() "<<outputChannel<<"  < "<<outputVolumes.size();
+
+    
 	if(outputChannel < outputVolumes.size()){
 		return outputVolumes[outputChannel].get();
 	}
@@ -257,7 +263,7 @@ const float& ofxSoundMatrixMixer::getVolumeForChannel(const size_t& inputChannel
 			ofLogWarning("ofxSoundMatrixMixer::getVolumeForChannel") << "connection index out of bounds";
 		}
 	}else{
-		ofLogWarning("ofxSoundMatrixMixer::getVolumeForChannel") << "input channel index out of bounds";
+		ofLogWarning("ofxSoundMatrixMixer::getVolumeForChannel") << "input channel index out of bounds. inputChannel == " <<inputChannel<<" and matrixInputChannelMap.size() == "<<matrixInputChannelMap.size();
 	}
 	return dummyFloat;	
 }
@@ -298,6 +304,8 @@ void ofxSoundMatrixMixer::updateNumInputChannels(){
 				numInputChannels += src->getNumChannels();
 			}
 		}
+        
+        ofLog()<<"    ofxSoundUtils::resize_vec(matrixInputChannelMap, numInputChannels);";
 		ofxSoundUtils::resize_vec(matrixInputChannelMap, numInputChannels);
 		
 		size_t count = 0;
