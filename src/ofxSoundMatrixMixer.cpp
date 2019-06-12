@@ -19,7 +19,7 @@ bool ofxSoundMatrixMixer::MatrixInputObject::pullChannel(){
 	bBufferProcessed = false;
 	if (obj != nullptr ) {
 		ofxSoundObject * source = obj->getSignalSourceObject();
-		if(source != nullptr){			
+		if(source){			
 			auto player = dynamic_cast<ofxSoundPlayerObject*>(source);
 			if((player && player->isPlaying()) || !player ){// this is to avoid pulling audio when the player is not playing
 				size_t nc = source->getNumChannels();
@@ -180,7 +180,7 @@ void ofxSoundMatrixMixer::updateNumOutputChannels(const size_t & nc){
 	}
 }
 //----------------------------------------------------
-const VUMeter& ofxSoundMatrixMixer::getVUMeterForConnection(const size_t& connectionIndex){
+ VUMeter& ofxSoundMatrixMixer::getVUMeterForConnection(const size_t& connectionIndex){
 	if(connectionIndex < inObjects.size()){
 		return inObjects[connectionIndex]->vuMeter;
 	}
@@ -360,14 +360,14 @@ void ofxSoundMatrixMixer::mixChannelBufferIntoOutput(const size_t& idx, ofSoundB
 	if(input.getNumFrames() != output.getNumFrames()){
 		ofLogWarning("ofxSoundMatrixMixer::mixChannelBufferIntoOutput") <<  "input and output buffers have different number of frames. these should be equal. in: " << input.getNumFrames() << " out: " << output.getNumFrames();
 	}
-	auto & v = inObjects[idx]->channelsVolumes;
-	if(in_nc != v.size()){
-		cout << "in_nc " << in_nc << "  "<< v.size() << endl;
-	}else{
-		if(out_nc != v[in_nc].size()){
-			cout << "idx " << idx << " out_nc " << out_nc << "  " << v[in_nc].size() << endl;
-		}
-	}
+//    auto & v = inObjects[idx]->channelsVolumes;
+//    if(in_nc != v.size()){
+////        cout << "in_nc " << in_nc << "  "<< v.size() << endl;
+//    }else{
+//        if(out_nc != v[in_nc].size()){
+//            cout << "idx " << idx << " out_nc " << out_nc << "  " << v[in_nc].size() << endl;
+//        }
+//    }
 	
 	if(inObjects[idx]->bBufferProcessed){
 		for(size_t ic =0; ic < in_nc; ic++){

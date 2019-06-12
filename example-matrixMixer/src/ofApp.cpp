@@ -20,7 +20,7 @@ void ofApp::setup(){
 		loadPath = r.getPath();
 #else
 		// change this path if you want to use another one and not use the system load dialog
-		loadPath = ofToDataPath("../../../../../examples/sound/soundPlayerExample/bin/data/sounds");
+        loadPath = ofToDataPath("recordings_wav48k/"); //ofToDataPath("../../../../../examples/sound/soundPlayerExample/bin/data/sounds");
 
 #endif
 		
@@ -101,6 +101,9 @@ void ofApp::loadFolder(const string& path){
 		dir.listDir();
 		auto startIndex = players.size();
 		players.resize( startIndex + dir.size());
+        
+        VUMeters.resize(players.size());
+        
 		for (int i = 0; i < dir.size(); i++) {
 			players[startIndex + i] = make_shared<ofxSoundPlayerObject>();
 			
@@ -142,9 +145,9 @@ void ofApp::exit(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 	
-	
-
-	mixerRenderer.draw();
+    if(ofGetElapsedTimef() > 3){
+        mixerRenderer.draw();
+    }
 	stringstream ss;
 	ss << "Press l key to load mixer settings." << endl;
 	ss << "Press s key to save mixer settings." << endl;
@@ -177,6 +180,16 @@ void ofApp::draw(){
 	
 	ofDrawBitmapStringHighlight(ss.str(), r.x, 20);
 	
+    float vu_0 = mixer.getVUMeterForConnection(0).getRMSforChannel(0);
+    vu_0 = MAX(0.00001,vu_0);
+    
+//    if(vu_0 > 0.00001){
+//        rmsTimer = ofGetElapsedTimef();
+//    }else{
+//        if(ofGetElapsedTimef())
+//    }
+    ofLog()<<"VU "<<vu_0;
+
 	
 }
 
@@ -199,7 +212,12 @@ void ofApp::keyReleased(int key){
 		loadFolder(loadPath);
 	}
 	
-	
+    if(key =='1'){
+        bool state = players[0]->isPlaying();
+       if(state == true) players[0]->setPaused(true);
+        else players[0]->setPaused(false);
+    }
+    
 }
 
 //--------------------------------------------------------------

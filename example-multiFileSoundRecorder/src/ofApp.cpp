@@ -19,8 +19,8 @@ void ofApp::setup(){
 	// the index is the number printed in the console inside [ ] before the interface name 
 	// You can use a different input and output device.
 	
-	size_t inDeviceIndex = 1;
-	size_t outDeviceIndex = 1;
+	size_t inDeviceIndex = 0;
+	size_t outDeviceIndex = 0;
 	
 	
 	cout << "========================" << endl;

@@ -91,3 +91,5 @@ Desktop.ini
 *.log
 *.sql
 *.sqlite
+
+/noGit

@@ -2,8 +2,8 @@
 
 #include "ofMain.h"
 #include "ofxSoundObjects.h"
+#include "waveformDraw.h"
 #include "ofxSoundObjectMatrixMixerRenderer.h"
-#include "VUMeter.h"
 
 class ofApp : public ofBaseApp{
 	
@@ -26,23 +26,17 @@ public:
 	void gotMessage(ofMessage msg);
 	
 	ofSoundStream stream;
-
-	ofxSoundMatrixMixer mixer;
-	ofxSoundMatrixMixerRenderer mixerRenderer;
-
-	ofxSoundInput input;
 	
-	vector<shared_ptr<ofxSoundPlayerObject>> players;
+	ofxSoundInputMultiplexer input;
+	ofxSoundOutputMultiplexer output;
 	
-    vector<VUMeter> VUMeters;
+    ofxSoundMatrixMixer mixer;
+    ofxSoundMatrixMixerRenderer mixerRenderer;
+
     
-	size_t inDeviceIndex, outDeviceIndex;
-		
-	string mixerSettingsXmlPath;
-	bool bSettingsLoaded = false;
+	vector< unique_ptr<ofxSoundRecorderObject>> recorders;
+	vector< waveformDraw > waves; 
 	
-	string loadPath;
-	
-	void loadFolder(const string& path);
+	void toggleChannelRecording(int chan);
 	
 };

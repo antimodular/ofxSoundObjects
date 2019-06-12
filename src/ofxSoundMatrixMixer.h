@@ -86,7 +86,7 @@ public:
 	
 	
 	// get the VUMeter object for the connection at connectionIndex
-	const VUMeter& getVUMeterForConnection(const size_t& connectionIndex);
+	 VUMeter& getVUMeterForConnection(const size_t& connectionIndex);
 	// get the VUMeter object that is in the output of the mixer.
 	const VUMeter& getOutputVUMeter();
 	
