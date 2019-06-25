@@ -49,13 +49,13 @@ public:
 
 	ofSoundBuffer & getCurrentBuffer();
 
-	static void setMaxSoundsTotal(int max);
-	static void setMaxSoundsPerPlayer(int max);
-	void setMaxSounds(int max);
+//	static void setMaxSoundsTotal(int max);
+//	static void setMaxSoundsPerPlayer(int max);
+//	void setMaxSounds(int max);
 
-	ofEvent<ofSoundBuffer> newBufferE;
+//	ofEvent<ofSoundBuffer> newBufferE;
     ofEvent<size_t> endEvent;
-//	ofEvent<bool> threadedLoadingEndEvent;
+	ofEvent<void>& getAsyncLoadEndEvent();
 
     const ofxSoundFile& getSoundFile() const {return soundFile;}
 	ofxSoundFile& getSoundFile() { return soundFile;}
@@ -92,9 +92,10 @@ private:
 		LOADING_ASYNC,
 		LOADING_ASYNC_AUTOPLAY,
 		LOADED
-//		PLAYING
 	};
 	std::atomic<State> state;
+	void setState(State newState);
+	bool isState(State compState);
 	
 	void init();
 	
@@ -107,27 +108,30 @@ private:
 	size_t playerNumFrames;
 	size_t playerNumChannels;
 
-	static int maxSoundsTotal;
-	static int maxSoundsPerPlayer;
-	int maxSounds;
+//	static int maxSoundsTotal;
+//	static int maxSoundsPerPlayer;
+//	int maxSounds;
 	ofSoundBuffer buffer; 
 	ofSoundBuffer resampledBuffer;
 	ofxSoundFile soundFile;
-	bool bStreaming = false;
-	bool bMultiplay = false;
-//	bool bIsLoaded = false;
-	bool bIsPlayingAny = false;
+	std::atomic<bool> bStreaming;
+	std::atomic<bool> bMultiplay;
+	std::atomic<bool> bIsPlayingAny;
+
 	vector<soundPlayInstance> instances;
 
 	void checkPaused();
     
     void updateInstance(std::function<void(soundPlayInstance& inst)> func, int index, string methodName);
 	ofMutex mutex;
-//	bool bLoadingAsync = false;
-//	bool bAsyncAutoplay = false;
-//	
-//	unique_ptr<ofxSoundFileThreadedLoader> threadedLoader;
-//	ofEventListener threadedLoaderListener;
+	
+	
+	void update(ofEventArgs&);
+	ofEventListener updateListener;
+	std::atomic<bool> bListeningUpdate;
+	std::vector<size_t> endedInstancesToNotify;
+	void addInstanceEndNotification(const size_t & id);
+	void clearInstanceEndNotificationQueue();
 	
 };
 

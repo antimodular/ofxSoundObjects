@@ -42,7 +42,8 @@ public:
 	string loadPath;
 	
 	void loadFolder(const string& path, bool bReload);
-
+void reLoadFolder(const string& path, bool bReload);
+    
 	int selectedConnection = 0;
 	int selectedChannel = 0;
 	
