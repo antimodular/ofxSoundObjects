@@ -20,8 +20,9 @@ void ofApp::setup(){
 		loadPath = r.getPath();
 #else
 		// change this path if you want to use another one and not use the system load dialog
-		loadPath = ofToDataPath("../../../../../examples/sound/soundPlayerExample/bin/data/sounds");
-
+//        loadPath = ofToDataPath("../../../../../examples/sound/soundPlayerExample/bin/data/sounds");
+        loadPath = ofToDataPath("sounds/");
+        
 #endif
 		
 		loadFolder(loadPath, false);
@@ -57,7 +58,7 @@ void ofApp::setup(){
 	settings.numOutputChannels = outDevices[outDeviceIndex].outputChannels;
 	auto  sr = inDevices[inDeviceIndex].sampleRates;
 	if(sr.size()){
-		settings.sampleRate  =sr[0];
+        settings.sampleRate  =48000 ; //sr[0];
 	}
 	
 	
@@ -96,7 +97,8 @@ void ofApp::loadFolder(const string& path, bool bReload){
 			startIndex = players.size();
 			players.resize( startIndex + dir.size());
 		}
-		for (int i = 0; i < dir.size(); i++) {
+        for (int i = 0; i < 1; i++) {
+//        for (int i = 0; i < dir.size(); i++) {
 		if(!bReload) {
 			players[startIndex + i] = make_shared<ofxSoundPlayerObject>();
 		}

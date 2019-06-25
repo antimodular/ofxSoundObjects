@@ -68,7 +68,8 @@ bool ofxSoundFile::loadFile(std::string filepath, bool bAsync){
 	
 	if( ofFile::doesFileExist( filepath ) ){
 		ofxAudioFile audiofile; 
-		audiofile.setVerbose(true);
+//        audiofile.setVerbose(true);
+        audiofile.setVerbose(true);
 		audiofile.load( filepath );
 		bool bL = audiofile.loaded();
 		if (!bL){

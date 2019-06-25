@@ -108,10 +108,9 @@ void ofxSoundPlayerObject::init(){
 			play();
 		}
 		state = LOADED;	
-//		if(ofGetLogLevel() == OF_LOG_VERBOSE){
-//			ofLogVerbose("ofxSoundPlayerObject::init\n") << ss.str();
-		std::cout << "ofxSoundPlayerObject::init\n" << ss.str() << std::endl;
-//		}
+
+        std::cout << "ofxSoundPlayerObject::init\n" << ss.str() << std::endl;
+
 			
 	}
 }

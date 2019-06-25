@@ -28,7 +28,7 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 	
-	
+    void setAllMicsCrossPoints(float _level);
 	ofxSoundMatrixMixer mixer; 
 	ofxSoundMatrixMixerRenderer mixerRenderer;
 	
@@ -39,10 +39,12 @@ public:
 	ofxSoundOutputMultiplexer output;
 //	ofxSoundMixer mixer;
 	
-	
+    int inChannels;
+    int outChannels;
+    
 	vector< unique_ptr<ofxSoundRecorderObject>> recorders;
  
-	
+    float myTimer;
 	bool toggleChannelRecording(int chan);
 #ifdef USE_WAVES
 	vector< waveformDraw > waves;

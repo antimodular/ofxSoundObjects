@@ -19,8 +19,8 @@ void ofApp::setup(){
 	// the index is the number printed in the console inside [ ] before the interface name 
 	// You can use a different input and output device.
 	
-	size_t inDeviceIndex = 1;
-	size_t outDeviceIndex = 1;
+    size_t inDeviceIndex = 1;
+    size_t outDeviceIndex = 0;
 	
 	
 	cout << "========================" << endl;
@@ -28,12 +28,15 @@ void ofApp::setup(){
 	
 	cout << "========================" << endl;
 	
+    inChannels = inDevices[inDeviceIndex].inputChannels;
+    outChannels = outDevices[outDeviceIndex].outputChannels;
+    
 	// Setup the sound stream.
 	ofSoundStreamSettings settings;
 	settings.bufferSize = 256;
 	settings.numBuffers = 1;
-	settings.numInputChannels =  inDevices[inDeviceIndex].inputChannels;
-	settings.numOutputChannels = outDevices[outDeviceIndex].outputChannels;
+	settings.numInputChannels =  inChannels;
+	settings.numOutputChannels = outChannels;
 	
 	auto  sr = inDevices[inDeviceIndex].sampleRates;
 	if(sr.size()){
@@ -47,8 +50,6 @@ void ofApp::setup(){
 	stream.setup(settings);
 	
 	input.setInputStream(stream);
-	
-	
 	output.connectTo(mixer);
 	mixer.setOutputStream(stream);
 	
@@ -83,8 +84,33 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
 	
-	
+    if(ofGetElapsedTimef() - myTimer > 1){
+        myTimer = ofGetElapsedTimef();
+        int r = ofRandom( recorders.size());
+        if(recorders[r]->isRecording()){
+            recorders[r]->stopRecording();
+        }else{
+            string str = ofToDataPath("Chan_"+ofToString(r)+"_"+ofGetTimestampString()+".wav",true);
+            ofLog()<<"rec "<<str;
+            recorders[r]->startRecording(str);
+        }
+    }
 }
+
+void ofApp::setAllMicsCrossPoints(float _level){
+    if(mixer.getNumOutputChannels() > 0){
+        
+        for(int in = 0; in <inChannels; in++ ){
+            for(int out = 0; out <outChannels; out++ ){
+                mixer.setVolumeForChannel(_level, in, out);
+            }
+        }
+        
+    }
+    
+   
+}
+
 //--------------------------------------------------------------
 void ofApp::exit(){
 	stream.stop();
@@ -190,6 +216,10 @@ void ofApp::keyReleased(int key){
 			mixerRenderer.setNonSliderMode(!mixerRenderer.isNonSliderMode());
 		}
 	}
+    
+    if(key == 'q'){
+        setAllMicsCrossPoints(0);
+    }
 }
 
 //--------------------------------------------------------------
