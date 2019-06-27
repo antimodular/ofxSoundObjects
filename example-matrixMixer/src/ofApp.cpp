@@ -42,10 +42,10 @@ void ofApp::setup(){
 	// The following two lines of code is where you set which audio interface to use.
 	// the index is the number printed in the console inside [ ] before the interface name 
 	// You can use a different input and output device.
-	
+
     inDeviceIndex = 4; //1;
     outDeviceIndex = 4; //0;
-	
+
 
 	cout << "========================" << endl;
 	cout << ofxSoundUtils::getSoundDeviceString(inDevices[inDeviceIndex], true, true) << endl;
@@ -86,80 +86,40 @@ void ofApp::setup(){
 void ofApp::loadFolder(const string& path, bool bReload){
 	ofFile f(path);
 	
-    //set bLoadAsync to true if you want to load the audio files on a different thread. 
-    bool bLoadAsync = false; //true;
-    if(f.isDirectory()){
-        ofDirectory dir(path);
-        dir.allowExt("wav");
-        dir.allowExt("aiff");
-        dir.allowExt("mp3");
-        dir.listDir();
-        size_t startIndex = 0;
-        if(!bReload) {
-            startIndex = players.size();
-            players.resize( startIndex + dir.size());
-        }
-        //        for (int i = 0; i < 1; i++) {
-        for (int i = 0; i < dir.size(); i++) {
-            if(!bReload) {
-                players[startIndex + i] = make_shared<ofxSoundPlayerObject>();
-            }
-            if(!bLoadAsync){
-                if(players[startIndex + i]->load(dir.getPath(i))){
-                    players[startIndex + i]->connectTo(mixer);
-                    
-                    players[startIndex + i]->play();
-                    
-                }
-            }else{
-                if(players[startIndex + i]->loadAsync(dir.getPath(i), true)){	
-                    players[startIndex + i]->connectTo(mixer);
-                    //				players[startIndex + i]->play();// dont call play immediately after calling load Async. 
-                    // instead set to true the second argument of ofxSoundPlayerObject::loadAsync (few lines above)
-                    // when this argument is set to true it will start playing immediately after loading, otherwise it will not.	
-                }
-            }
-            players[startIndex + i]->setLoop(true);
-        }
-    }	
-}
-void ofApp::reLoadFolder(const string& path, bool bReload){
-    ofFile f(path);
-    
-    //set bLoadAsync to true if you want to load the audio files on a different thread. 
-    bool bLoadAsync = false; //true;
-    if(f.isDirectory()){
-        ofDirectory dir(path);
-        dir.allowExt("wav");
-        dir.allowExt("aiff");
-        dir.allowExt("mp3");
-        dir.listDir();
-        size_t startIndex = 0;
-        if(!bReload) {
-            startIndex = players.size();
-            players.resize( startIndex + dir.size());
-        }
-        //        for (int i = 0; i < 1; i++) {
-        for (int i = 0; i < dir.size(); i++) {
-
-            if(!bLoadAsync){
-                if(players[startIndex + i]->load(dir.getPath(i))){
-//                    players[startIndex + i]->connectTo(mixer);
-                    
-                    players[startIndex + i]->play();
-                    
-                }
-            }else{
-                if(players[startIndex + i]->loadAsync(dir.getPath(i), true)){    
-//                    players[startIndex + i]->connectTo(mixer);
-                    //                players[startIndex + i]->play();// dont call play immediately after calling load Async. 
-                    // instead set to true the second argument of ofxSoundPlayerObject::loadAsync (few lines above)
-                    // when this argument is set to true it will start playing immediately after loading, otherwise it will not.    
-                }
-            }
-            players[startIndex + i]->setLoop(true);
-        }
-    }    
+	//set bLoadAsync to true if you want to load the audio files on a different thread. 
+	bool bLoadAsync = false;
+	if(f.isDirectory()){
+		ofDirectory dir(path);
+		dir.allowExt("wav");
+		dir.allowExt("aiff");
+		dir.allowExt("mp3");
+		dir.listDir();
+		size_t startIndex = 0;
+		if(!bReload) {
+			startIndex = players.size();
+			players.resize( startIndex + dir.size());
+		}
+		for (int i = 0; i < dir.size(); i++) {
+			if(!bReload) {
+				players[startIndex + i] = make_shared<ofxSoundPlayerObject>();
+			}
+			if(!bLoadAsync){
+				if(players[startIndex + i]->load(dir.getPath(i))){
+					players[startIndex + i]->connectTo(mixer);
+		
+					players[startIndex + i]->play();
+				}
+			}else{
+				if(players[startIndex + i]->loadAsync(dir.getPath(i), true)){	
+					players[startIndex + i]->connectTo(mixer);
+					//				players[startIndex + i]->play();// dont call play immediately after calling load Async. 
+					// instead set to true the second argument of ofxSoundPlayerObject::loadAsync (few lines above)
+					// when this argument is set to true it will start playing immediately after loading, otherwise it will not.	
+				}
+			}
+			players[startIndex + i]->setLoop(true);
+		}
+	}	
 }
 //--------------------------------------------------------------
 void ofApp::update(){
@@ -245,6 +205,9 @@ void ofApp::draw(){
 	rPeak.width = ofMap(peak, -1, 1, 0, r3.width);
 	rRms.width = ofMap(rms, -1, 1, 0, r3.width);
 	
+    float ll = 10 * log10(rms);
+    ofLog()<<selectedConnection<<" rms "<<rms<<" ll "<<ll;
+    
 	ofPushStyle();
 	ofSetColor(ofColor::yellow);
 	ofDrawRectangle(rPeak);
