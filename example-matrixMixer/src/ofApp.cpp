@@ -21,8 +21,8 @@ void ofApp::setup(){
 #else
 		// change this path if you want to use another one and not use the system load dialog
 //        loadPath = ofToDataPath("../../../../../examples/sound/soundPlayerExample/bin/data/sounds");
-//        loadPath = ofToDataPath("sounds/");
-         loadPath = ofToDataPath("recordings_wav48k/");
+        loadPath = ofToDataPath("sounds48k/");
+//         loadPath = ofToDataPath("recordings_wav48k/");
         
         
 #endif
@@ -53,7 +53,7 @@ void ofApp::setup(){
 	cout << "========================" << endl;
 	
 	// Setup the sound stream.
-	ofSoundStreamSettings settings;
+	
 	settings.bufferSize = 256;
 	settings.numBuffers = 1;
 	settings.numInputChannels =  inDevices[inDeviceIndex].inputChannels;
@@ -87,7 +87,8 @@ void ofApp::loadFolder(const string& path, bool bReload){
 	ofFile f(path);
 	
 	//set bLoadAsync to true if you want to load the audio files on a different thread. 
-	bool bLoadAsync = false;
+//    bool bLoadAsync = true; //false;
+     bool bLoadAsync = false;
 	if(f.isDirectory()){
 		ofDirectory dir(path);
 		dir.allowExt("wav");
@@ -95,11 +96,16 @@ void ofApp::loadFolder(const string& path, bool bReload){
 		dir.allowExt("mp3");
 		dir.listDir();
 		size_t startIndex = 0;
+        
+        int maxFileAmt = MIN(141,dir.size());
+        ofLog()<<"load maxFileAmt "<<maxFileAmt;
+        
 		if(!bReload) {
 			startIndex = players.size();
-			players.resize( startIndex + dir.size());
+			players.resize( startIndex + maxFileAmt);
 		}
-		for (int i = 0; i < dir.size(); i++) {
+      
+		for (int i = 0; i < maxFileAmt; i++) {
 			if(!bReload) {
 				players[startIndex + i] = make_shared<ofxSoundPlayerObject>();
 			}
@@ -206,7 +212,7 @@ void ofApp::draw(){
 	rRms.width = ofMap(rms, -1, 1, 0, r3.width);
 	
     float ll = 10 * log10(rms);
-    ofLog()<<selectedConnection<<" rms "<<rms<<" ll "<<ll;
+//    ofLog()<<selectedConnection<<" rms "<<rms<<" ll "<<ll;
     
 	ofPushStyle();
 	ofSetColor(ofColor::yellow);
@@ -222,7 +228,7 @@ void ofApp::draw(){
 	ofRectangle mixRect;
 	mixRect.x = 20;
 	mixRect.y = 20 + r.y + r.height +20; 
-	mixRect.width = ofGetWidth() - 40;
+    mixRect.width = 600; //ofGetWidth() - 40;
 	mixRect.height = ofGetHeight() - mixRect.y -20; 
 	
 	
@@ -262,7 +268,20 @@ void ofApp::keyReleased(int key){
 	}else if(key == OF_KEY_RIGHT){
 		(++selectedChannel)%= mixer.getConnectionNumberOfChannels(selectedConnection);
 	}
-	
+
+    if(key == 'x'){
+        for(int in = 0; in <mixer.getNumInputChannels(); in++ ){
+            for(int out = 0; out <mixer.getNumOutputChannels(); out++ ){
+                mixer.setVolumeForChannel(0, in, out);
+            }
+        }
+    }
+    if(key == 'p'){
+        ofLog()<<"players.size() "<<players.size();
+        for(int i = 0; i < players.size(); i++ ){
+            players[i]->play();
+        }
+    }
 }
 
 //--------------------------------------------------------------

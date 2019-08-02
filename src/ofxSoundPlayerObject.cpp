@@ -64,7 +64,8 @@ bool ofxSoundPlayerObject::load(std::filesystem::path filePath, bool _stream){
 		
 		bStreaming = false; // temporarily unavailable, until properly implementing in ofxSoundFile
 		init();
-		
+        filePathStr = filePath.string();
+        
 		
 		return isLoaded();
 	}
@@ -452,6 +453,11 @@ ofSoundBuffer & ofxSoundPlayerObject::getCurrentBuffer(){
 	}
 }
 //--------------------------------------------------------------
+string ofxSoundPlayerObject::getFilePath(){
+
+        return filePathStr;
+
+}
 //--------------------------------------------------------------
 void ofxSoundPlayerObject::checkPaused(){
 	bIsPlayingAny = false;

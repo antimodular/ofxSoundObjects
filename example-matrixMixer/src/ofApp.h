@@ -46,5 +46,7 @@ void reLoadFolder(const string& path, bool bReload);
     
 	int selectedConnection = 0;
 	int selectedChannel = 0;
+    
+    ofSoundStreamSettings settings;
 	
 };

@@ -49,6 +49,8 @@ public:
 
 	ofSoundBuffer & getCurrentBuffer();
 
+    string getFilePath();
+    
 //	static void setMaxSoundsTotal(int max);
 //	static void setMaxSoundsPerPlayer(int max);
 //	void setMaxSounds(int max);
@@ -120,6 +122,8 @@ private:
 
 	vector<soundPlayInstance> instances;
 
+    string filePathStr;
+    
 	void checkPaused();
     
     void updateInstance(std::function<void(soundPlayInstance& inst)> func, int index, string methodName);

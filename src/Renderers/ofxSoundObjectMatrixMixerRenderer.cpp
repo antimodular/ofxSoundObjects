@@ -13,12 +13,12 @@
 
 //----------------------------------------------------
 
-void drawRect(const ofRectangle& r){
-	ofSetColor(55);
+void drawRect(const ofRectangle& r, float _alpha = 255){
+	ofSetColor(55,_alpha);
 	ofNoFill();
 	ofDrawRectangle(r);
 	ofFill();
-	ofSetColor(0);
+	ofSetColor(0, _alpha);
 	ofDrawRectangle(r);
 }
 std::string getSoundFileInfo(const ofxSoundFile& f){
@@ -128,7 +128,7 @@ void ofxSoundMatrixMixerRenderer::setMinChannelHeight(const float& minHeight){
 	this->minHeight = minHeight;
 }
 //----------------------------------------------------
-void ofxSoundMatrixMixerRenderer::draw(const ofRectangle& mixerRect){
+void ofxSoundMatrixMixerRenderer::draw(const ofRectangle& mixerRect, float _alpha){
 	
 	if(obj != nullptr){
 		
@@ -162,10 +162,10 @@ void ofxSoundMatrixMixerRenderer::draw(const ofRectangle& mixerRect){
 //		}
 		
 		
-		drawRect(leftR);
-		drawRect(bottomR);
-		drawRect(gridR);
-		drawRect(bottomLeftR);
+		drawRect(leftR , _alpha);
+		drawRect(bottomR, _alpha);
+		drawRect(gridR, _alpha);
+		drawRect(bottomLeftR, _alpha);
 		
 		size_t cellCount = 0;
 		ofBitmapFont bf;
@@ -181,7 +181,7 @@ void ofxSoundMatrixMixerRenderer::draw(const ofRectangle& mixerRect){
 		glm::vec3 outPos = outChanR.getBottomLeft();
 		if(outputSliders.size()) outPos.y -= outputSliders[0]->getHeight();
 		for(size_t i = 0; i < outputSliders.size() && i < obj->outputChannels.size() ; i++){
-			drawRect(outChanR);
+			drawRect(outChanR, _alpha);
 			if(bNonSliderMode){
 				std::stringstream vol;
 				vol << "out " << i <<" : " << obj->outputChannels[i].volume.get();
@@ -244,7 +244,7 @@ void ofxSoundMatrixMixerRenderer::draw(const ofRectangle& mixerRect){
 			objR.height = cell.height * v.size();
 			chanR.y = objR.y;
 			
-			drawRect(objR);			
+			drawRect(objR, _alpha);			
 			ofSetColor(255);
 			
 			
@@ -264,7 +264,7 @@ void ofxSoundMatrixMixerRenderer::draw(const ofRectangle& mixerRect){
 				posR.y = objR.getMaxY() - posR.height;
 				posR.width = ofMap(player->getPositionMS(), 0, player->getDurationMS(), 0, objR.width);
 				
-				ofSetColor(100);
+				ofSetColor(100, _alpha);
 				ofDrawRectangle(posR);
 				
 				
@@ -286,13 +286,13 @@ void ofxSoundMatrixMixerRenderer::draw(const ofRectangle& mixerRect){
 			for(size_t i = 0; i < v.size() && i < sliders[idx].size(); i++){
 				cell.y = gridR.y + (cell.height * (i + cellCount));
 				chanR.y = cell.y;
-				drawRect(chanR);
+				drawRect(chanR, _alpha);
 				if(obj->ofxSoundMatrixMixer::getComputeRMSandPeak()){
 					obj->inObjects[idx]->vuMeter.drawChannel(i, chanR);
 				}
 				for(size_t j = 0; j < v[i].size() && j < sliders[idx][i].size(); j++){
 					cell.x = gridR.x + cell.width*j; 	 
-					drawRect(cell);
+					drawRect(cell, _alpha);
 					ofSetColor(255);
 					
 					auto p = cell.getBottomLeft();
@@ -301,7 +301,7 @@ void ofxSoundMatrixMixerRenderer::draw(const ofRectangle& mixerRect){
 						ofRectangle volR = cell;
 						volR.width = ofMap(v[i][j], 0,1,0, volR.width, true);
 						
-						ofSetColor(100);
+						ofSetColor(100, _alpha);
 						ofDrawRectangle(volR);
 					}else{
 						if(bNonSliderMode){
